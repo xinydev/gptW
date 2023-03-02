@@ -1,0 +1,2 @@
+# gptW
+wapper for ChatGPT
