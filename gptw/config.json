@@ -1,0 +1,35 @@
+{
+    "version": "v1.0.0",
+    "cmds": {
+        "e": {
+            "prompt": "Please translate the following text into English, and polish it to make it sound more natural and in line with native speaker conventions. Please refrain from providing any additional output beyond the translated text",
+            "_comment": "Translate into English",
+            "example": "ww e 你好"
+        },
+        "c": {
+            "prompt": "Please translate the following text into Chinese, and polish it to make it sound more natural and in line with native speaker conventions. Please refrain from providing any additional output beyond the translated text",
+            "_comment": "Translate into Chinese",
+            "example": "ww c how r u"
+        },
+        "p": {
+            "prompt": "Please polish my following sentence, correct grammar errors and make it sound more natural. output language according to the original language",
+            "_comment": "Polish sentence",
+            "example": "ww p hwo are you"
+        },
+        "a": {
+            "prompt": "",
+            "_comment": "Just ask ChatGPT directly",
+            "example": "ww a who are you"
+        },
+        "d": {
+            "prompt": "Polish the document below, correct grammar errors, and make the document more complete",
+            "_comment": "Polish document",
+            "example": "ww d -f README.md"
+        },
+        "r": {
+            "prompt": "Please review the following code and provide feedback on any issues or suggestions for improvement.",
+            "_comment": "Code Review",
+            "example": "ww r -f gptw/gptw.py"
+        }
+    }
+}
