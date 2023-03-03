@@ -75,7 +75,9 @@ def init_logging(debug: bool):
     )
 
 
-key_file = "/tmp/gptw-key.txt"
+CURRENT_FOLDER = os.path.dirname(os.path.abspath(__file__))
+key_file = os.path.join(CURRENT_FOLDER, "/tmp/gptw-key.txt")
+cfg_file = os.path.join(CURRENT_FOLDER, "config.json")
 
 
 def set_apikey(key):
@@ -86,9 +88,6 @@ def set_apikey(key):
 def get_apikey():
     with open(key_file) as f:
         openai.api_key = f.readline().strip()
-
-
-cfg_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 
 
 def get_configs():
@@ -113,6 +112,7 @@ def ask_gpt_with(pre, text):
 def main():
     args = args_init()
     init_logging(args.debug)
+    logging.debug(f"src folder: {CURRENT_FOLDER}")
 
     if args.key:
         logging.debug("key mode")
