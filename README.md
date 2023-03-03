@@ -1,6 +1,6 @@
 # GPT simplify your daily Workflow (gptW)
 
-gptW has eliminated the cumbersome process of entering a series of pre-commands before using ChatGPT for ease of use.
+GPTW has eliminated the cumbersome process of entering a series of pre-commands(prompt) before using ChatGPT, making it more user-friendly.
 
 ## Example
 
@@ -60,8 +60,7 @@ I am an AI language model created by OpenAI.
 
 ### Add your own custom command
 
-Prepare to execute the command for chatGPT work and modify the gptw/config.json file
-Then create a pull request, or you can also write the command you want to add in an issue
+Prepare your prompt and modify the gptw/config.json file following the existing format. Then, submit a PR or directly raise an issue to explain the command you want to add.
 
 gtpw/config.json:
 
@@ -90,6 +89,7 @@ p   | Polish sentence                | ww p hwo are you
 a   | Just ask ChatGPT directly      | ww a who are you
 d   | Polish document                | ww d -f README.md
 r   | Code Review                    | ww r -f gptw/gptw.py
+dic | Dictionary                     | ww dic dictionary
 ```
 
 ## Installation
