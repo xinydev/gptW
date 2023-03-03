@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import sys
+from os.path import expanduser
 
 import openai
 
@@ -76,8 +77,8 @@ def init_logging(debug: bool):
 
 
 CURRENT_FOLDER = os.path.dirname(os.path.abspath(__file__))
-key_file = os.path.join(CURRENT_FOLDER, "gptw-key.txt")
 cfg_file = os.path.join(CURRENT_FOLDER, "config.json")
+key_file = os.path.join(expanduser("~"), ".gptw-key.txt")
 
 
 def set_apikey(key):

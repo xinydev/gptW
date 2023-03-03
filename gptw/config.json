@@ -30,6 +30,11 @@
             "prompt": "Please review the following code and provide feedback on any issues or suggestions for improvement.",
             "_comment": "Code Review",
             "example": "ww r -f gptw/gptw.py"
+        },
+        "dic": {
+            "prompt": "Please explain the meaning of the following English words, providing both English and Chinese versions of the explanation, along with an English example sentence and the pronunciation of the English word. Please refrain from providing any additional information beyond this.",
+            "_comment": "Dictionary",
+            "example": "ww dic dictionary"
         }
     }
 }
