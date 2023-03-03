@@ -2,8 +2,11 @@ name: Run tests
 
 on:
   push:
+    branches:
+      - main
   pull_request:
-    branches-ignore: [ master ]
+    branches:
+      - main
 
 jobs:
   tests:

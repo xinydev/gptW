@@ -76,7 +76,7 @@ def init_logging(debug: bool):
 
 
 CURRENT_FOLDER = os.path.dirname(os.path.abspath(__file__))
-key_file = os.path.join(CURRENT_FOLDER, "/tmp/gptw-key.txt")
+key_file = os.path.join(CURRENT_FOLDER, "gptw-key.txt")
 cfg_file = os.path.join(CURRENT_FOLDER, "config.json")
 
 
