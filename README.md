@@ -1,6 +1,8 @@
 # GPT simplify your daily Workflow (gptW)
 
-GPTW has eliminated the cumbersome process of entering a series of pre-commands(prompt) before using ChatGPT, making it more user-friendly.
+It is no longer necessary to manually input prompts and interact with ChatGPT
+
+With the GPTW tool, prompt operations are fully automated! Simplify your daily workflow.
 
 ## Example
 
@@ -58,7 +60,7 @@ $ ww a "who are you? "
 I am an AI language model created by OpenAI.
 ```
 
-### Add your own custom command
+### Add your custom prompt
 
 Prepare your prompt and modify the gptw/config.json file following the existing format. Then, submit a PR or directly raise an issue to explain the command you want to add.
 
@@ -68,8 +70,11 @@ gtpw/config.json:
 {
     "version": "v1.0.0",
     "cmds": {
+        ## cmd to use
         "e": {
+            ## replace with your prompt
             "prompt": "Please translate the following text into English, and polish it to make it sound more natural and in line with native speaker conventions. Please refrain from providing any additional output beyond the translated text",
+            ## A simple explanation of what this prompt is used for
             "_comment": "Translate into English"
         },
         ...
