@@ -14,9 +14,9 @@ def args_init():
     parser = argparse.ArgumentParser(
         description="\n".join(
             [
-                "The ChatGPT command-line wrapper simplifies the execution of predetermined tasks through ChatGPT",
-                "usage:",
+                "GPT Simplifies Your Daily Workflow (gptW)",
                 "",
+                "Usage:",
                 'ww e "今天天气怎么样"  # translate to English',
                 'ww c "who are you?"  # translate to Chinese',
                 "ww --list  # get all available commands",

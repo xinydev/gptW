@@ -12,7 +12,7 @@
             "example": "ww c how r u"
         },
         "p": {
-            "prompt": "Please polish my following sentence, correct grammar errors and make it sound more natural. output language according to the original language",
+            "prompt": "Please proofread the following sentence for grammar, tense, inappropriate word choice or phrasing, and make it sound more natural and in line with native speaker conventions. Please provide a brief explanation for the changes you made",
             "_comment": "Polish sentence",
             "example": "ww p hwo are you"
         },
@@ -22,17 +22,17 @@
             "example": "ww a who are you"
         },
         "d": {
-            "prompt": "Polish the document below, correct grammar errors, and make the document more complete",
+            "prompt": "Proofread the document below, and correct any issues with grammar, tense, inappropriate word usage, etc. After understanding the content of the document, supplement it appropriately, and then directly output the modified document. Do not provide any additional output beyond this.",
             "_comment": "Polish document",
             "example": "ww d -f README.md"
         },
         "r": {
-            "prompt": "Please review the following code and provide feedback on any issues or suggestions for improvement.",
+            "prompt": "Please review the following code and provide your professional software engineering perspective on its shortcomings and suggestions for improvement.",
             "_comment": "Code Review",
             "example": "ww r -f gptw/gptw.py"
         },
         "dic": {
-            "prompt": "Please explain the meaning of the following English words, providing both English and Chinese versions of the explanation, along with an English example sentence and the pronunciation of the English word. Please refrain from providing any additional information beyond this.",
+            "prompt": "Please explain the meanings of the following English words, providing both English and Chinese versions of the explanations, along with an English example sentence and the correct pronunciation. Please correct any spelling errors in the words. Please refrain from providing any additional output beyond the translated text",
             "_comment": "Dictionary",
             "example": "ww dic dictionary"
         }
