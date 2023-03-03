@@ -1,6 +1,7 @@
 import argparse
 import json
 import logging
+import os
 import sys
 
 import openai
@@ -87,7 +88,7 @@ def get_apikey():
         openai.api_key = f.readline().strip()
 
 
-cfg_file = "gptw/config.json"
+cfg_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 
 
 def get_configs():
