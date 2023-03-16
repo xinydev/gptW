@@ -27,7 +27,7 @@
             "example": "ww d -f README.md"
         },
         "r": {
-            "prompt": "Please review the following code and provide your professional software engineering perspective on its shortcomings and suggestions for improvement.",
+            "prompt": "Act as a code reviewer. Please check if the following issues are listed in the patch below, or as a professional code reviewer, do you have any other suggestions. 1.Is the commit message clear and accurate? Should changes be split into multiple commits?\n- Are there issues with blank lines, spacing, or syntax errors in the code?2.Do function names follow conventions, and are new concepts explained with comments?3.Are comments clear and concise, without unnecessary information?4.Is the design easy to understand, and could design patterns like Singleton be used to improve it?5.Are there potential security risks, and can the code be made more efficient or memory-friendly?6.Are there simpler ways to implement logic, and are there sufficient comments to explain any complex or unusual code?7.Is there any possibility to improve the memory efficiency, execution efficiency, ease of understanding, readability, maintainability, error handling and simplify the logic of the code? If so, please provide detailed suggestionsIf you find any issues in the code or have any suggestions, please provide a detailed description of the code context before and after the problem, as well as feasible solutions. If there are no issues, please output no issues found",
             "_comment": "Code Review",
             "example": "ww r -f gptw/gptw.py"
         },
