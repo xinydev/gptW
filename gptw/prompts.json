@@ -2,7 +2,7 @@
     "version": "v1.0.0",
     "cmds": {
         "e": {
-            "prompt": "Please translate the following text into natural-sounding English, while adhering to native speaker conventions. Do not provide any additional output beyond the translated text.",
+            "prompt": "Please rephrase the following text into natural-sounding English, adhering to native speaker conventions. Limit your response to the translation only.",
             "_comment": "Translate into English",
             "example": "ww e 你好"
         },
@@ -12,7 +12,7 @@
             "example": "ww c how r u"
         },
         "p": {
-            "prompt": "Please review the following sentence for any grammatical errors, incorrect tenses, inappropriate word choices or phrasing, and make revisions to ensure it sounds natural and adheres to native speaker conventions. Please provide a brief explanation for any changes made.",
+            "prompt": "Please review the sentence below for grammar, tense, word choice, and phrasing issues. Edit the sentence to make it sound natural and align with native speaker conventions. Provide a brief explanation for any changes made.",
             "_comment": "Polish sentence",
             "example": "ww p hwo are you"
         },
@@ -27,7 +27,7 @@
             "example": "ww d -f README.md"
         },
         "r": {
-            "prompt": "Please review the code below and provide feedback on any issues or improvements that can be made. Specifically, please check for syntax errors, unclear commit messages, and any potential security risks. Additionally, please suggest ways to improve the code's efficiency, readability, maintainability, and error handling. If you encounter any issues or have any suggestions, please provide detailed descriptions and feasible solutions. If no issues are found, please output 'No issues found'.",
+            "prompt": "Please review the provided code snippet for any issues or areas of improvement. Focus on identifying syntax errors, vague commit messages, and potential security risks. Additionally, suggest ways to enhance the code's efficiency, readability, maintainability, and error handling. Provide detailed descriptions and feasible solutions for any identified issues or suggestions. If no issues are found, please respond with 'No issues found'.",
             "_comment": "Code Review",
             "example": "ww r -f gptw/gptw.py"
         },
