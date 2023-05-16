@@ -133,7 +133,7 @@ def ask_poe(token, bot_name, text):
     for chunk in client.send_message(bot_name, text, with_chat_break=True):
         pass
     # delete the 3 latest messages, including the chat break
-    client.purge_conversation("chinchilla", count=3)
+    client.purge_conversation(bot_name, count=3)
     return chunk["text"]
 
 
