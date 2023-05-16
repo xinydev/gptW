@@ -1,6 +1,6 @@
-# GPT simplify your daily Workflow (gptW)
+# GPT Simplify Your Daily Workflow (gptW)
 
-It is no longer necessary to manually input prompts and interact with ChatGPT
+No longer is it necessary to manually input prompts and interact with ChatGPT.
 
 With the GPTW tool, prompt operations are fully automated! Simplify your daily workflow.
 
@@ -8,27 +8,25 @@ With the GPTW tool, prompt operations are fully automated! Simplify your daily w
 
 ### Translate
 
-You can simply use the "ww" command without having to first instruct ChatGPT that the following task is a translation
+You can simply use the "ww" command without having to first instruct ChatGPT that the following task is a translation.
 
-Translate to English
+Translate to English:
 
 ```shell
 $ ww e "今天天气怎么样"
-
 How's the weather today?
 ```
 
-Translate to Chinese
+Translate to Chinese:
 
 ```shell
 $ ww c "who are you? "
-
 你是谁？(Nǐ shì shéi?)
 ```
 
-### Polish the document
+### Polish the Document
 
-Polish a document, supporting files as input.
+Polish a document with files as input.
 
 ```shell
 ww d -f README.md
@@ -38,10 +36,9 @@ ww d -f README.md
 
 ```shell
 $ ww r -f gptw/gptw.py
-
 As an AI language model, I cannot run the code provided, but I can provide some feedback based on the code structure and syntax.
 
-1. The code seems to be well-organized and follows PEP 8 guidelines for Python code.
+1. The code appears to be well-organized and follows the PEP 8 guidelines for Python code.
 
 2. The argparse module is used to parse command-line arguments, which is a good practice for command-line applications.
 
@@ -52,15 +49,14 @@ Overall, the code seems to be well-written and organized, but could benefit from
 
 ### Ask
 
-Ask ChatGPT directly
+Ask ChatGPT directly:
 
 ```shell
 $ ww a "who are you? "
-
 I am an AI language model created by OpenAI.
 ```
 
-### Add your custom prompt
+### Add Your Custom Prompt
 
 Prepare your prompt and modify the gptw/config.json file following the existing format. Then, submit a PR or directly raise an issue to explain the command you want to add.
 
@@ -86,7 +82,6 @@ Currently, the following workflows are supported. You can run "ww -l" to obtain 
 
 ```shell
 $ ww --list
-
 cmd | meaning                        | example
 e   | Translate into English         | ww e 你好
 c   | Translate into Chinese         | ww c how r u
@@ -101,8 +96,27 @@ dic | Dictionary                     | ww dic dictionary
 
 ```shell
 pip install --upgrade gptw
-ww --key sk-..... # set your OpenAI API key
 ```
+
+### OpenAI Config
+
+```shell
+ww --config provider=openai
+ww --config openai-model=gpt-3.5-turbo
+ww --config openai-token={YOUR_TOKEN}
+```
+
+### POE Config
+
+```shell
+ww --config provider=poe
+ww --config poe-bot-name=chinchilla
+ww --config poe-token={YOUR_TOKEN}
+```
+
+Bot names:
+
+{'capybara': 'Sage', 'beaver': 'GPT-4', 'a2_2': 'Claude+', 'a2': 'Claude', 'chinchilla': 'ChatGPT', 'nutria': 'Dragonfly'}
 
 ## Uninstall
 
