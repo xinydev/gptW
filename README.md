@@ -118,6 +118,15 @@ Bot names:
 
 {'capybara': 'Sage', 'beaver': 'GPT-4', 'a2_2': 'Claude+', 'a2': 'Claude', 'chinchilla': 'ChatGPT', 'nutria': 'Dragonfly'}
 
+### ChatGPT website
+
+```shell
+ww -c provider=gpt-web
+ww -c gpt-web-model=gpt-4
+ww -c gpt-web-token=  # https://chat.openai.com/api/auth/session copy the access_token session
+ww -c gpt-web-proxy=  # https://github.com/acheong08/ChatGPT-Proxy-V4
+```
+
 ## Uninstall
 
 ```shell
