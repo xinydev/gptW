@@ -157,6 +157,20 @@ def ask_gpt_web(token, proxy, model, text):
     return response
 
 
+def ask_azure(token, endpoint, depname, text):
+    logging.debug(f"!!!ask:{text}")
+    openai.api_key = token
+    openai.api_base = endpoint
+    openai.api_type = "azure"
+    openai.api_version = "2023-05-15"
+    completion = openai.ChatCompletion.create(
+        engine=depname,
+        messages=[{"role": "user", "content": text}],
+        temperature=0.2,
+    )
+    return str(completion.choices[0].message.content).strip()
+
+
 def list_commands(prompts):
     print(f'{"cmd":<{3}} | {"meaning":<{30}} | {"example"}')
     for pmt in prompts:
@@ -215,3 +229,9 @@ def main():
         proxy = get_config("gpt-web-proxy")
         model = get_config("gpt-web-model")
         print(ask_gpt_web(token, proxy, model, msg))
+    if get_config("provider") == "azure":
+        logging.debug("use azure")
+        token = get_config("azure-token")
+        endpoint = get_config("azure-endpoint")
+        depname = get_config("azure-depname")
+        print(ask_azure(token, endpoint, depname, msg))

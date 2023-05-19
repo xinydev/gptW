@@ -127,6 +127,15 @@ ww -c gpt-web-token=  # https://chat.openai.com/api/auth/session copy the access
 ww -c gpt-web-proxy=  # https://github.com/acheong08/ChatGPT-Proxy-V4
 ```
 
+### Azure OpenAI
+
+```shell
+ww -c provider=azure
+ww -c azure-token={YOUR_TOKEN}
+ww -c azure-endpoint
+ww -c azure-depnam=
+```
+
 ## Uninstall
 
 ```shell
