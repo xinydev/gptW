@@ -5,9 +5,6 @@ import os
 import sys
 from os.path import expanduser
 
-import openai
-import poe
-
 import gptw
 
 
@@ -101,10 +98,15 @@ def set_config(key, value):
         json.dump(cfg, f)
 
 
+CONFIG = None
+
+
 def get_config(key):
-    try:
+    if not CONFIG:
         with open(config_file) as f:
-            return json.load(f)[key]
+            CFG = json.load(f)
+    try:
+        return CFG[key]
     except Exception:
         print("config not found, run `ww --config` to set it")
         sys.exit(1)
@@ -116,17 +118,21 @@ def get_prompts():
 
 
 def ask_gpt(token, model, text):
+    import openai
+
     logging.debug(f"!!!ask:{text}")
     openai.api_key = token
     completion = openai.ChatCompletion.create(
         model=model,
         messages=[{"role": "user", "content": text}],
-        temperature=0.2,
+        temperature=0.5,
     )
     return str(completion.choices[0].message.content).strip()
 
 
 def ask_poe(token, bot_name, text):
+    import poe
+
     poe.logger.setLevel(logging.WARNING)
     client = poe.Client(token)
 
@@ -158,6 +164,8 @@ def ask_gpt_web(token, proxy, model, text):
 
 
 def ask_azure(token, endpoint, depname, text):
+    import openai
+
     logging.debug(f"!!!ask:{text}")
     openai.api_key = token
     openai.api_base = endpoint
@@ -166,7 +174,7 @@ def ask_azure(token, endpoint, depname, text):
     completion = openai.ChatCompletion.create(
         engine=depname,
         messages=[{"role": "user", "content": text}],
-        temperature=0.2,
+        temperature=0.5,
     )
     return str(completion.choices[0].message.content).strip()
 
@@ -211,7 +219,7 @@ def main():
 
     logging.debug(f"cmd:{args.cmd},text:{text}")
 
-    msg = f'{prompts[args.cmd]["prompt"]}\n\n{text}'
+    msg = f'{prompts[args.cmd]["prompt"]}\n```{text.replace("```","")}```'
 
     if get_config("provider") == "openai":
         logging.debug("use openai")
