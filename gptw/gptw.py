@@ -163,19 +163,32 @@ def ask_gpt_web(token, proxy, model, text):
     return response
 
 
-def ask_azure(token, endpoint, depname, text):
+def ask_azure_multi_pass(token, endpoint, depname, text):
+    msgs = [{"role": "user", "content": text}]
+    for _ in range(5):
+        resp = ask_azure(token, endpoint, depname, msgs)
+        msgs.append({"role": "assistant", "content": resp})
+        msgs.append({"role": "user", "content": "a better one"})
+        print(resp)
+        print("")
+    return ""
+
+
+def ask_azure(token, endpoint, depname, msgs):
     import openai
 
-    logging.debug(f"!!!ask:{text}")
+    logging.debug(f"!!!ask:{msgs}")
     openai.api_key = token
     openai.api_base = endpoint
     openai.api_type = "azure"
     openai.api_version = "2023-05-15"
     completion = openai.ChatCompletion.create(
         engine=depname,
-        messages=[{"role": "user", "content": text}],
+        messages=msgs,
         temperature=0.5,
     )
+    resp = str(completion.choices[0].message.content).strip()
+    logging.debug(f"!!!resp:{resp}")
     return str(completion.choices[0].message.content).strip()
 
 
@@ -242,4 +255,4 @@ def main():
         token = get_config("azure-token")
         endpoint = get_config("azure-endpoint")
         depname = get_config("azure-depname")
-        print(ask_azure(token, endpoint, depname, msg))
+        print(ask_azure_multi_pass(token, endpoint, depname, msg))
