@@ -143,26 +143,6 @@ def ask_poe(token, bot_name, text):
     return chunk["text"]
 
 
-def ask_gpt_web(token, proxy, model, text):
-    os.environ["CHATGPT_BASE_URL"] = proxy
-    logging.debug("proxy:" + os.environ["CHATGPT_BASE_URL"])
-
-    from revChatGPT.V1 import Chatbot
-
-    chatbot = Chatbot(
-        config={
-            "access_token": token,
-            "paid": True,
-            "model": model,
-            "collect_analytics": False,
-        }
-    )
-    response = ""
-    for data in chatbot.ask(text):
-        response = data["message"]
-    return response
-
-
 def ask_azure_multi_pass(token, endpoint, depname, text):
     msgs = [{"role": "user", "content": text}]
     for _ in range(5):
@@ -244,12 +224,6 @@ def main():
         token = get_config("poe-token")
         bot_name = get_config("poe-bot-name")
         print(ask_poe(token, bot_name, msg))
-    if get_config("provider") == "gpt-web":
-        logging.debug("use gpt-web")
-        token = get_config("gpt-web-token")
-        proxy = get_config("gpt-web-proxy")
-        model = get_config("gpt-web-model")
-        print(ask_gpt_web(token, proxy, model, msg))
     if get_config("provider") == "azure":
         logging.debug("use azure")
         token = get_config("azure-token")

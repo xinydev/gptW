@@ -6,26 +6,20 @@ requires = ["hatchling>=1.12.2", "hatch-vcs>=0.3"]
 name = "gptw"
 dynamic = ["version"]
 description = "The ChatGPT command-line wrapper simplifies the execution of predetermined tasks through ChatGPT."
-authors = [
-  {email = "xinydev@gmail.com"},
-  {name = "Xin Yang"}
-]
-homepage="https://github.com/xinydev/gptW"
+authors = [{ email = "xinydev@gmail.com" }, { name = "Xin Yang" }]
+homepage = "https://github.com/xinydev/gptW"
 readme.file = "README.md"
 readme.content-type = "text/markdown"
-keywords = ["ChatGPT", "Command Line", "English Translation","English Polishing"]
+keywords = [
+  "ChatGPT",
+  "Command Line",
+  "English Translation",
+  "English Polishing",
+]
 license = "Apache-2.0"
 requires-python = ">=3.7.1"
-dependencies = [
-  "argparse>=1.4.0",
-  "openai>=0.27.0",
-  "poe-api>=0.3.1",
-  "revChatGPT>=5.0.3"
-]
-optional-dependencies.testing = [
-  "coverage==5.5",
-  "pytest==7.1.3",
-]
+dependencies = ["argparse>=1.4.0", "openai>=0.27.0", "poe-api>=0.3.1"]
+optional-dependencies.testing = ["coverage==5.5", "pytest==7.1.3"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -39,16 +33,14 @@ classifiers = [
 ]
 
 [project.scripts]
-gptw="gptw.gptw:main"
-ww="gptw.gptw:main"
+gptw = "gptw.gptw:main"
+ww = "gptw.gptw:main"
 
 [tool.setuptools.dynamic]
-version = {attr = "gptw.__version__"}
+version = { attr = "gptw.__version__" }
 
 [tool.hatch.version]
 path = "gptw/__init__.py"
 
 [tool.hatch.build]
-include = [
-  "gptw/*",
-]
+include = ["gptw/*"]
