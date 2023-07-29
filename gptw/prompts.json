@@ -2,7 +2,7 @@
     "version": "v1.0.0",
     "cmds": {
         "e": {
-            "prompt": "Please rephrase the text delimited by triple backticks into natural-sounding English, adhering to native speaker conventions. Limit your response to the translation only.",
+            "prompt": "Please translate the following sentence into English. Please only output the translated content and do not output any other irrelevant content",
             "_comment": "Translate into English",
             "example": "ww e 你好"
         },

@@ -101,11 +101,13 @@ def set_config(key, value):
 CONFIG = None
 
 
-def get_config(key):
+def get_config(key, default_value=None):
     if not CONFIG:
         with open(config_file) as f:
             CFG = json.load(f)
     try:
+        if key not in CFG and default_value:
+            return default_value
         return CFG[key]
     except Exception:
         print("config not found, run `ww --config` to set it")
@@ -143,12 +145,12 @@ def ask_poe(token, bot_name, text):
     return chunk["text"]
 
 
-def ask_azure_multi_pass(token, endpoint, depname, text):
+def ask_azure_multi_pass(repeat_cnt, token, endpoint, depname, text):
     msgs = [{"role": "user", "content": text}]
-    for _ in range(5):
+    for _ in range(repeat_cnt):
         resp = ask_azure(token, endpoint, depname, msgs)
         msgs.append({"role": "assistant", "content": resp})
-        msgs.append({"role": "user", "content": "a better one"})
+        msgs.append({"role": "user", "content": "retry, a better one please"})
         print(resp)
         print("")
     return ""
@@ -163,12 +165,13 @@ def ask_azure(token, endpoint, depname, msgs):
     openai.api_type = "azure"
     openai.api_version = "2023-05-15"
     completion = openai.ChatCompletion.create(
-        engine=depname,
-        messages=msgs,
-        temperature=0.5,
+        engine=depname, messages=msgs, temperature=1.2, n=2
     )
-    resp = str(completion.choices[0].message.content).strip()
-    logging.debug(f"!!!resp:{resp}")
+    ret = str(completion.choices[0].message.content).strip()
+
+    for x in completion.choices[1:]:
+        print(str(x.message.content).strip())
+    logging.debug(f"!!!resp:{ret}")
     return str(completion.choices[0].message.content).strip()
 
 
@@ -229,4 +232,5 @@ def main():
         token = get_config("azure-token")
         endpoint = get_config("azure-endpoint")
         depname = get_config("azure-depname")
-        print(ask_azure_multi_pass(token, endpoint, depname, msg))
+        repeat_cnt = int(get_config("azure-repeat-cnt", 3))
+        print(ask_azure_multi_pass(repeat_cnt, token, endpoint, depname, msg))
