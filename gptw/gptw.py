@@ -6,6 +6,7 @@ import sys
 from os.path import expanduser
 
 import gptw
+from gptw.voice import chat_in_audio
 
 
 def args_init():
@@ -43,6 +44,14 @@ def args_init():
         action="store_true",
         default=False,
         help="list all available sub cmds",
+    )
+
+    parser.add_argument(
+        "--voice",
+        dest="voice",
+        action="store_true",
+        default=False,
+        help="chat with gpt in voice mode",
     )
 
     parser.add_argument(
@@ -110,7 +119,7 @@ def get_config(key, default_value=None):
             return default_value
         return CFG[key]
     except Exception:
-        print("config not found, run `ww --config` to set it")
+        print(f"config {key} not found, run `ww --config` to set it")
         sys.exit(1)
 
 
@@ -192,6 +201,15 @@ def main():
         logging.debug("set config")
         k, v = args.config.split("=")
         set_config(k, v)
+        exit(0)
+
+    if args.voice:
+        token = get_config("azure-token")
+        endpoint = get_config("azure-endpoint")
+        depname = get_config("azure-depname")
+        tts_key = get_config("tts-key")
+        tts_region = get_config("tts-region")
+        chat_in_audio(token, endpoint, depname, tts_key, tts_region)
         exit(0)
 
     prompts = get_prompts()
