@@ -21,7 +21,7 @@ class TestParser(TestCase):
             run("ww --config provider=openai")
             run("ww --config openai-model=gpt-3.5-turbo")
             run(f"ww --config openai-token={api_key}")
-            self.assertIn("model", str(run('ww a "who are you?"')))
+            self.assertIn("who", str(run('ww e "你是谁"')))
             self.assertIn("ww", str(run("ww -v")))
 
 

@@ -5,6 +5,8 @@ import os
 import sys
 from os.path import expanduser
 
+import openai
+
 import gptw
 
 
@@ -119,60 +121,62 @@ def get_prompts():
         return json.load(f)["cmds"]
 
 
-def ask_gpt(token, model, text):
-    import openai
-
-    logging.debug(f"!!!ask:{text}")
-    openai.api_key = token
-    completion = openai.ChatCompletion.create(
-        model=model,
-        messages=[{"role": "user", "content": text}],
-        temperature=0.5,
-    )
-    return str(completion.choices[0].message.content).strip()
-
-
-def ask_poe(token, bot_name, text):
-    import poe
-
-    poe.logger.setLevel(logging.WARNING)
-    client = poe.Client(token)
-
-    for chunk in client.send_message(bot_name, text, with_chat_break=True):
-        pass
-    # delete the 3 latest messages, including the chat break
-    client.purge_conversation(bot_name, count=3)
-    return chunk["text"]
-
-
-def ask_azure_multi_pass(repeat_cnt, token, endpoint, depname, text):
-    msgs = [{"role": "user", "content": text}]
+def mode_multi_pass(f, prompt, user_input, repeat_cnt, auth):
+    msgs = [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": user_input},
+    ]
     for _ in range(repeat_cnt):
-        resp = ask_azure(token, endpoint, depname, msgs)
+        resp = f(msgs, auth)
         msgs.append({"role": "assistant", "content": resp})
         msgs.append({"role": "user", "content": "retry, a better one please"})
-        print(resp)
         print("")
     return ""
 
 
-def ask_azure(token, endpoint, depname, msgs):
-    import openai
+def mode_chat(f, content, auth):
+    msgs = [{"role": "user", "content": content}]
 
-    logging.debug(f"!!!ask:{msgs}")
-    openai.api_key = token
-    openai.api_base = endpoint
+    while True:
+        resp = f(msgs, auth)
+        msgs.append({"role": "assistant", "content": resp})
+        user_resp = input("You: ")
+        if not user_resp:
+            break
+        msgs.append({"role": "user", "content": user_resp})
+    return ""
+
+
+def ask_azure(content, auth):
+    logging.debug(f"!!!ask:{content}")
+    openai.api_key = auth["token"]
+    openai.api_base = auth["endpoint"]
     openai.api_type = "azure"
     openai.api_version = "2023-05-15"
     completion = openai.ChatCompletion.create(
-        engine=depname, messages=msgs, temperature=1.2, n=2
+        engine=auth["depname"], messages=content, temperature=1.2, n=2
+    )
+    ret = ""
+    choices = completion.choices
+    for i, choice in enumerate(choices):
+        ret = str(choice.message.content).strip()
+        print(f"choice {i}: {ret}")
+
+    logging.debug(f"!!!resp:{ret}")
+    return ret
+
+
+def ask_openai(content, auth):
+    logging.debug(f"!!!ask:{content}")
+    openai.api_key = auth["token"]
+    completion = openai.ChatCompletion.create(
+        model=auth["model"],
+        messages=[{"role": "user", "content": content}],
+        temperature=0.5,
     )
     ret = str(completion.choices[0].message.content).strip()
-
-    for x in completion.choices[1:]:
-        print(str(x.message.content).strip())
-    logging.debug(f"!!!resp:{ret}")
-    return str(completion.choices[0].message.content).strip()
+    print(ret)
+    return ret
 
 
 def list_commands(prompts):
@@ -215,22 +219,30 @@ def main():
 
     logging.debug(f"cmd:{args.cmd},text:{text}")
 
-    msg = f'{prompts[args.cmd]["prompt"]}\n```{text.replace("```","")}```'
+    prompt = prompts[args.cmd]["prompt"]
+    user_input = text
 
-    if get_config("provider") == "openai":
-        logging.debug("use openai")
-        model = get_config("openai-model")
-        token = get_config("openai-token")
-        print(ask_gpt(token, model, msg))
-    if get_config("provider") == "poe":
-        logging.debug("use poe")
-        token = get_config("poe-token")
-        bot_name = get_config("poe-bot-name")
-        print(ask_poe(token, bot_name, msg))
-    if get_config("provider") == "azure":
-        logging.debug("use azure")
-        token = get_config("azure-token")
-        endpoint = get_config("azure-endpoint")
-        depname = get_config("azure-depname")
-        repeat_cnt = int(get_config("azure-repeat-cnt", 3))
-        print(ask_azure_multi_pass(repeat_cnt, token, endpoint, depname, msg))
+    provider = get_config("provider")
+
+    if provider == "openai":
+        func_ask = ask_openai
+        func_auth = {
+            "model": get_config("openai-model"),
+            "token": get_config("openai-token"),
+        }
+    elif provider == "azure":
+        func_ask = ask_azure
+        func_auth = {
+            "token": get_config("azure-token"),
+            "endpoint": get_config("azure-endpoint"),
+            "depname": get_config("azure-depname"),
+        }
+    else:
+        print(f"provider:{provider} not supported")
+        exit(1)
+
+    if args.cmd == "a":
+        print(mode_chat(func_ask, user_input, func_auth))
+    else:
+        repeat_cnt = int(get_config("repeat-cnt", 1))
+        print(mode_multi_pass(func_ask, prompt, user_input, repeat_cnt, func_auth))
