@@ -12,7 +12,8 @@ jobs:
   tests:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: True
+      max-parallel: 1
       matrix:
         python-version: ["3.9","3.11"]
         os: [ubuntu-latest,macos-latest]
