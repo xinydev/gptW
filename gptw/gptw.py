@@ -170,6 +170,7 @@ def ask_azure(content, auth):
     for i, choice in enumerate(choices):
         ret = str(choice.message.content).strip()
         print(f"choice {i}: {ret}")
+        print("--------")
 
     logging.debug(f"!!!resp:{ret}")
     return ret
