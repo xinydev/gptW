@@ -5,10 +5,9 @@ import os
 import sys
 from os.path import expanduser
 
-import openai
+from openai import AzureOpenAI, OpenAI
 
 import gptw
-from gptw.voice import chat_in_audio
 
 
 def args_init():
@@ -78,7 +77,7 @@ def args_init():
 
 
 def init_logging(debug: bool):
-    level = logging.INFO
+    level = logging.WARN
     if debug:
         level = logging.DEBUG
     logging.basicConfig(
@@ -158,12 +157,14 @@ def mode_chat(f, content, auth):
 
 def ask_azure(content, auth):
     logging.debug(f"!!!ask:{content}")
-    openai.api_key = auth["token"]
-    openai.api_base = auth["endpoint"]
-    openai.api_type = "azure"
-    openai.api_version = "2023-05-15"
-    completion = openai.ChatCompletion.create(
-        engine=auth["depname"], messages=content, temperature=1.2, n=2
+
+    client = AzureOpenAI(
+        api_key=auth["token"],
+        api_version="2023-10-01-preview",
+        azure_endpoint=auth["endpoint"],
+    )
+    completion = client.chat.completions.create(
+        model=auth["depname"], messages=content, temperature=1.2, n=2, timeout=10
     )
     ret = ""
     choices = completion.choices
@@ -178,8 +179,11 @@ def ask_azure(content, auth):
 
 def ask_openai(content, auth):
     logging.debug(f"!!!ask:{content}")
-    openai.api_key = auth["token"]
-    completion = openai.ChatCompletion.create(
+
+    client = OpenAI(
+        api_key=auth["token"],
+    )
+    completion = client.chat.completions.create(
         model=auth["model"],
         messages=[{"role": "user", "content": content}],
         temperature=0.5,
@@ -206,15 +210,6 @@ def main():
         logging.debug("set config")
         k, v = args.config.split("=")
         set_config(k, v)
-        exit(0)
-
-    if args.voice:
-        token = get_config("azure-token")
-        endpoint = get_config("azure-endpoint")
-        depname = get_config("azure-depname")
-        tts_key = get_config("tts-key")
-        tts_region = get_config("tts-region")
-        chat_in_audio(token, endpoint, depname, tts_key, tts_region)
         exit(0)
 
     prompts = get_prompts()
